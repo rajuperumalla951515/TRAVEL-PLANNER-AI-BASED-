@@ -1,126 +1,53 @@
-# 🧳 AI Student Travel Planner   
+# 🧳 AI Student Travel Planner
 ### *Plan Smarter. Travel Cheaper. Explore Deeper.*
 
-An **AI-powered travel planning web app** built specially for **students in India**.  
-It creates **personalized, budget-friendly travel itineraries**, analyzes Budget , Predicts risks and gives saftey and works as an **AI travel assistant** — all in one clean interface.
-
-> 🎯 Designed for low-budget, educational & cultural travel across **all Indian states and districts**.
+The **AI Student Travel Planner** is a specialized web application designed for students in India. Leveraging **Google Gemini AI**, it generates personalized, budget-conscious itineraries, provides risk assessments, and acts as an intelligent travel assistant within a premium Streamlit interface.
 
 ---
 
-## 🌟 Why This Project?
+## 🚀 Key Features
 
-Students often struggle with:
-- 💸 Limited budgets  
-- 📍 Lack of local travel knowledge  
-- 🛡️ Safety & planning concerns  
-- ⏳ Time-consuming research  
-
-**AI Student Travel Planner** solves this by using **Generative AI** to instantly create **smart, student-centric travel plans** — saving time, money, and effort.
+*   **🗺️ AI Itinerary Generator**: Custom day-wise plans focusing on educational and cultural landmarks across all Indian states.
+*   **💰 Budget Optimizer**: Real-time cost estimates for transport, accommodation, and food tailored to student budgets.
+*   **🛡️ Risk & Safety Analysis**: Predictive safety insights and emergency precautions for every trip.
+*   **🤖 AI Travel Assistant**: A context-aware chatbot for real-time travel advice and local insights.
+*   **🎓 Student Profile System**: Personalized travel goals, budget ranges, and preferences managed via an intuitive sidebar.
 
 ---
 
-## ✨ Key Features
+## 🛠️ Technology Stack
 
-### 🗺️ AI Travel Itinerary Generator
-- Day-wise detailed itinerary
-- Covers **states & districts**
-- Educational + cultural focus
-
-### 💰 Student Budget Optimization
-- Travel, stay & food cost estimates
-- Train & bus-based travel suggestions
-- Hostel & budget stay recommendations
-
-
-### 🤖 AI Travel Assistant
-- Ask anything about travel in India
-- Personalized answers using your profile
-- Safety tips, routes & budget advice
-
-### 🎓 Personalized Student Profile
-- Travel goals
-- Budget range
-- Starting location
-- Preferences & restrictions
-- Editable anytime from sidebar
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | Streamlit |
+| **Intelligence** | Google Gemini AI (Text & Vision) |
+| **Logic/Backend** | Python |
+| **Data Analysis** | Pandas & Matplotlib |
 
 ---
 
-## 🧠 How It Works (System Flow)
+## 🏗️ Getting Started
 
-User Input → Student Profile
-→ AI Prompt Engineering
-→ Gemini AI (Text + Vision)
-→ Budget-aware Responses
-→ Streamlit UI Output
-
-
-- Uses **Google Gemini AI** for reasoning 
-- Smart prompt design ensures **student-friendly outputs**  
-- Everything runs inside **one clean Streamlit app**
-
----
-
-## 🛠️ Tech Stack
-
-| Layer        | Technology |
-|-------------|------------|
-| Frontend UI | Streamlit |
-| Backend     | Python |
-| AI Model    | Google Gemini (Text + Vision) |
-| Visualizations for budgets and stats | Matplotlib |
-| Data Display | Pandas |
-| Environment | Python + `.env` |
+1.  **Clone the Repository**:
+    ```bash
+    git clone https://github.com/rajuperumalla951515/VoyageAI-.git
+    ```
+2.  **Install Dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Set Environment Variables**:
+    Create a `.env` file with your `GOOGLE_API_KEY`.
+4.  **Run the Application**:
+    ```bash
+    streamlit run app.py
+    ```
 
 ---
 
-## 📂 Project Structure
+## 👨‍💻 Developed By
 
-Ai-Student-Travel-Planner/
-│
-├── app.py 
-├── places.csv 
-├── .env
-├── requirements.txt 
-└── README.md 
+**Raju Perumalla**
+*B.Tech (CSE) | Specialized in AI & Machine Learning*
 
-
-
-## 📊 Results & Impact
-
-- ✅ Generates realistic, student-budget itineraries
-- ✅ Saves hours of travel research
-- ✅ Encourages educational & cultural tourism
-- ✅ Easy to use, even for non-tech users
-- ✅ Ideal for academic & portfolio projects
-
----
-
-## 🚀 Future Enhancements
-
-- 🗺️ Google Maps & live route integration  
-- 🌦️ Weather-based trip planning  
-- 🏨 Hotel & transport booking suggestions  
-- 📄 PDF itinerary export  
-- 🔐 User login & trip history  
-- 📱 Mobile-friendly / app version  
-
----
-
-## 📚 References & Resources
-
-- Streamlit Documentation  
-- Google Gemini AI Documentation  
-- Python & Pandas Docs  
-- Open-source Indian travel resources  
-
----
-
-## 👨‍🎓 Developed By
-
-**Raju Perumalla**  
-B.Tech (CSE) | AI & ML  
-
-> Built as an **academic + portfolio project**,  
-> focused on solving **real student travel problems** 
+> Developed as a professional portfolio project to solve real-world student travel challenges through Generative AI.
