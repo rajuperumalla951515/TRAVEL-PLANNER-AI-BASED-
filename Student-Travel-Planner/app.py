@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv 
 load_dotenv()
 
 import streamlit as st
@@ -222,6 +222,62 @@ div[data-baseweb="tab-highlight"] {
     color: black;
     font-weight: 600;
     border-radius: 8px;
+    width: 100%; /* Full width buttons on mobile if needed */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    [data-testid="stTabs"] {
+        width: 100% !important;
+    }
+    
+    div[data-baseweb="tab-list"] {
+        gap: 10px !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        flex-wrap: nowrap !important;
+        display: flex !important;
+        padding-bottom: 10px !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    div[data-baseweb="tab-list"] button {
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+        min-width: max-content !important;
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        background: rgba(101, 148, 177, 0.05) !important;
+        border-radius: 8px 8px 0 0 !important;
+        margin-right: 5px !important;
+    }
+
+    div[data-baseweb="tab-list"] button[aria-selected="true"] {
+        background: rgba(101, 148, 177, 0.15) !important;
+        border-bottom: 2px solid #6594B1 !important;
+    }
+
+    /* Custom scrollbar for mobile visibility */
+    div[data-baseweb="tab-list"]::-webkit-scrollbar {
+        height: 4px !important;
+        display: block !important;
+    }
+    div[data-baseweb="tab-list"]::-webkit-scrollbar-thumb {
+        background: #6594B1 !important;
+        border-radius: 10px !important;
+    }
+
+    h1 {
+        font-size: 20px !important;
+        margin-bottom: 10px !important;
+    }
+    /* Ensure tables don't overflow */
+    .stMarkdown div[data-testid="stMarkdownContainer"] table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }
 
 /* Inputs */
@@ -456,10 +512,93 @@ with section1:
             response = get_gemini_response(prompt)
 
             st.subheader("📍 Your Travel Plan")
-            st.markdown(response)
+
+            # Parsing logic to split response into sections for tabs
+            import re
+
+            # We split by "Day X" markers
+            day_patterns = [
+                r"^### 📅 Day \d+", 
+                r"^## 📅 Day \d+",
+                r"^### Day \d+",
+                r"^## Day \d+",
+                r"^📅 Day \d+:",
+                r"^Day \d+:"
+            ]
+            combined_pattern = "|".join(day_patterns)
+
+            # Split the response using multiline flag
+            parts = re.split(f"({combined_pattern})", response, flags=re.MULTILINE)
+
+            if len(parts) > 1:
+                # The first part is usually an introductory text or summary
+                intro = parts[0].strip()
+                if intro:
+                    st.markdown(intro)
+
+                # Collect tab titles and their corresponding content
+                tab_titles = []
+                tab_contents = []
+
+                # Other sections like "Safety Tips", "Food Recommendations" usually come after days
+                # Let's see if we should split those too
+                last_days_part = parts[-1]
+                other_sections_patterns = [
+                    r"^##? 1\. Day-wise",
+                    r"^##? 2\. Estimated",
+                    r"^##? 3\. Best transport",
+                    r"^##? 4\. Affordable",
+                    r"^##? 5\. Local food",
+                    r"^##? 6\. Safety tips",
+                    r"^##? 7\. Best time",
+                    r"^##? 8\. Educational",
+                    r"^##? [🍽️🛡️✈️💰🏛️] (?:Food|Safety|Transport|Accommodation|Budget|Value)"
+                ]
+                others_combined = "|".join(other_sections_patterns)
+                
+                # Check for other sections in the last part using multiline flag
+                last_content_split = re.split(f"({others_combined})", last_days_part, flags=re.MULTILINE)
+                
+                # Process the days
+                for i in range(1, len(parts) - 1, 2):
+                    header = parts[i].strip()
+                    content = parts[i+1].strip()
+                    
+                    # Clean title for tab
+                    title = header.replace("#", "").replace("📅", "").replace(":", "").strip()
+                    tab_titles.append(title)
+                    tab_contents.append(content)
+                
+                # Add the first part of the last split as the content of the last day
+                last_day_header = parts[-2].strip()
+                last_day_title = last_day_header.replace("#", "").replace("📅", "").replace(":", "").strip()
+                tab_titles.append(last_day_title)
+                tab_contents.append(last_content_split[0].strip())
+
+                # Add other sections as tabs
+                for i in range(1, len(last_content_split), 2):
+                    header = last_content_split[i].strip()
+                    content = last_content_split[i+1].strip() if i+1 < len(last_content_split) else ""
+                    
+                    # Clean title for tab
+                    title = re.sub(r'^\d+\.\s*', '', str(header).replace("#", "").strip())
+                    # Limit title length for tabs
+                    title_str = str(title)
+                    title = (title_str[:15] + '..') if len(title_str) > 15 else title_str
+                    tab_titles.append(title)
+                    tab_contents.append(content)
+
+                # Create the tabs
+                if tab_titles:
+                    tabs = st.tabs(tab_titles)
+                    for tab, content in zip(tabs, tab_contents):
+                        with tab:
+                            st.markdown(content)
+            else:
+                st.markdown(response)
 
             st.download_button(
-                label="Download Travel Plan",
+                label="Download Full Travel Plan",
                 data=response,
                 file_name="student_travel_plan.txt",
                 mime="text/plain"
